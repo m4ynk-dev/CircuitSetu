@@ -12,11 +12,21 @@ Students can use CircuitSetu to solve and verify:
 - **Network Theorems**: Thevenin’s & Norton’s equivalent circuits, Superposition, and Maximum Power Transfer
 - **Nodal Analysis**: Automatic generation and solving of matrix equations
 
+## Tech-Stack
+
+- **Logic:** C++17 for high-performance circuit simulation and MNA math.
+- **Runtime:** WebAssembly (Wasm) to run C++ at native speeds in the browser.
+- **Bridge:** Emscripten to compile and interface C++ with JavaScript.
+- **Frontend:** React / Next.js for a responsive, modular user interface.
+- **Canvas:** React Flow for the interactive drag-and-drop schematic editor.
+- **State:** Zustand for lightweight, 100% local circuit data management.
+- **Persistence:** JSON & LocalStorage for offline saving.
+
 ## Installation
 
 **Prerequisites:**
-- Node.js (v18 or higher)
-- Emscripten SDK (for compiling the C++ engine)
+- [Node.js](https://nodejs.org/en) (v18 or higher)
+- [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) (for compiling the C++ engine)
 
 
 ```
