@@ -142,8 +142,21 @@ std::string CircuitSolver::simulate(const std::string &jsonData) {
           z[k] = val;
 
           currentBatteryIndex++;
+        } else if (type == "current_source") {
+          int nA = item.value("nodeA", 0);
+          int nB = item.value("nodeB", 0);
+          double val = item.value("value", 0.0);
+
+          if (nA > 0)
+            z[nA - 1] -= val;
+          if (nB > 0)
+            z[nB - 1] += val;
         }
       }
+    }
+
+    for (int i = 0; i < maxNode; i++) {
+      A[i][i] += 1e-12;
     }
 
     std::vector<double> solvedVoltages;
