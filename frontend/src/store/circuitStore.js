@@ -1,30 +1,57 @@
 import { create } from 'zustand';
 
-const useCircuitStore = create((set, get) => ({
-  components: [],
-  results: {},
-  addComponent: (component) => set((state) => ({
-    components: [...state.components, component]
-  })),
+function generateEnginePayload(reactNodes, reactEdges) {
+  const engineComponents = [];
+  const edgeToNodeId = {};
+  let nextNodeId = 1;
 
-  updateComponentValue: (id, newValue) => set((state) => ({
-    components: state.components.map(comp => 
-      comp.id === id ? { ...comp, value: newValue } : comp
+  reactEdges.forEach(edge => {
+    if (edge.source === 'ground' || edge.target === 'ground') {
+      edgeToNodeId[edge.id] = 0;
+    } else {
+      edgeToNodeId[edge.id] = nextNodeId++;
+    }
+  });
+
+  reactNodes.forEach(node => {
+    if (node.type === 'ground' || node.type === 'wire') return;
+    
+    const wireA = reactEdges.find(e => e.source === node.id);
+    const wireB = reactEdges.find(e => e.target === node.id);
+
+    if (!wireA || !wireB) return;
+
+    engineComponents.push({
+      type: node.type, 
+      value: parseFloat(node.data?.value || 0), 
+      nodeA: edgeToNodeId[wireA.id],
+      nodeB: edgeToNodeId[wireB.id]
+    });
+  });
+
+  return { components: engineComponents };
+}
+
+const useCircuitStore = create((set, get) => ({
+  nodes: [],
+  edges: [],
+  results: {},
+
+  setNodes: (nodes) => set({ nodes }),
+  setEdges: (edges) => set({ edges }),
+
+  updateNodeValue: (id, newValue) => set((state) => ({
+    nodes: state.nodes.map(node => 
+      node.id === id ? { ...node, data: { ...node.data, value: newValue } } : node
     )
   })),
 
   setResults: (data) => set({ results: data }),
 
   getEnginePayload: () => {
-    const { components } = get();
-    const payload = components.map(c => ({
-      type: c.type,       
-      nodeA: c.nodeA,  
-      nodeB: c.nodeB,  
-      value: c.value  
-    }));
+    const { nodes, edges } = get();
     
-    return JSON.stringify({ components: payload });
+    return JSON.stringify(generateEnginePayload(nodes, edges));
   }
 }));
 
