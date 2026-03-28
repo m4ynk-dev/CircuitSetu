@@ -1,1 +1,4 @@
 build/
+*.o
+*.wasm
+.DS_Store
