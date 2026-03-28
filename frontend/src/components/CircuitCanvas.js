@@ -18,8 +18,13 @@ export default function CircuitCanvas() {
 const [components,setComponents] = useState([])
 const [draggingId, setDraggingId] = useState(null)
 const [wires,setWires] = useState([])
+const [wireStart, setWireStart] = useState(null)
+const [offset, setOffset] = useState({ x: 0, y: 0 })
 
-const [wireStart,setWireStart] = useState(null)
+function startWire(id, side){
+setWireStart({ id, side })
+}
+const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
 function handleMouseDown(id){
   setDraggingId(id)
@@ -103,8 +108,82 @@ return (
 className="canvas"
 onDrop={drop}
 onDragOver={allowDrop}
-onMouseMove={handleMouseMove}
-onMouseUp={handleMouseUp}
+onMouseMove={(e)=>{
+
+if(draggingId === null) return
+
+const rect = e.currentTarget.getBoundingClientRect()
+
+const x = e.clientX - rect.left - offset.x
+const y = e.clientY - rect.top - offset.y
+
+setComponents(prev =>
+prev.map(c =>
+c.id === draggingId
+? { ...c, x, y }
+: c
+)
+)
+
+}}
+onMouseUp={(e)=>{
+
+  setDraggingId(null)
+
+if(!wireStart) return
+
+const rect = e.currentTarget.getBoundingClientRect()
+const x = e.clientX - rect.left
+const y = e.clientY - rect.top
+
+let target = null
+let targetSide = null
+
+components.forEach(c => {
+
+const leftPortX = c.x
+const rightPortX = c.x + 80
+const portY = c.y + 20
+
+if(Math.abs(x - leftPortX) < 10 && Math.abs(y - portY) < 10){
+target = c
+targetSide = "left"
+}
+
+if(Math.abs(x - rightPortX) < 10 && Math.abs(y - portY) < 10){
+target = c
+targetSide = "right"
+}
+
+})
+
+if(!target){
+setWireStart(null)
+return
+}
+
+if(
+target.id === wireStart.id &&
+targetSide === wireStart.side
+){
+setWireStart(null)
+return
+}
+
+setWires(prev => [
+...prev,
+{
+from: wireStart.id,
+to: target.id,
+fromSide: wireStart.side,
+toSide: targetSide
+}
+])
+
+setWireStart(null)
+
+}}
+
 >
 
 {/* SVG wires */}
@@ -120,7 +199,6 @@ height: "100%",
 pointerEvents: "none"
 }}
 >
-
 {wires.map((wire,i)=>{
 
 const from = getComponent(wire.from)
@@ -128,21 +206,25 @@ const to = getComponent(wire.to)
 
 if(!from || !to) return null
 
+const fromOffset = wire.fromSide === "left" ? 0 : 80
+const toOffset = wire.toSide === "left" ? 0 : 80
 return(
 
 <line
 key={i}
-x1={from.x+40}
-y1={from.y+20}
-x2={to.x+40}
-y2={to.y+20}
+x1={from.x + fromOffset}
+y1={from.y + 20}
+x2={to.x + toOffset}
+y2={to.y + 20}
 stroke="black"
-strokeWidth="3"
+strokeWidth="2"
 />
 
 )
 
 })}
+
+
 
 </svg>
 
@@ -156,16 +238,40 @@ return(
 key={comp.id}
 className="element"
 style={{
-left:comp.x,
-top:comp.y,
-border: wireStart === comp.id ? "2px solid blue" : "none",
-cursor:"grab",
+left: comp.x,
+top: comp.y,
+border: wireStart && wireStart.id === comp.id ? "2px solid blue" : "1px solid #ccc",
+cursor: "grab",
 }}
-onMouseDown={()=>handleMouseDown(comp.id)}
-onClick={()=>handleConnection(comp.id)}
+onMouseDown={(e)=>{
+if(e.target.classList.contains("port")) return
+handleMouseDown(comp.id, e)
+}}
 >
 
+{/* LEFT PORT */}
+<div
+className="port left"
+onMouseDown={(e)=>{
+e.stopPropagation()
+startWire(comp.id, "left")
+}}
+/>
+
+{/* CENTER CONTENT */}
+<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
 {iconMap[comp.type]}
+<span style={{fontSize:"10px"}}>{comp.type}</span>
+</div>
+
+{/* RIGHT PORT */}
+<div
+className="port right"
+onMouseDown={(e)=>{
+e.stopPropagation()
+startWire(comp.id, "right")
+}}
+/>
 
 </div>
 
