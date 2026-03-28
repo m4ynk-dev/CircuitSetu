@@ -25,8 +25,8 @@ export default function LandingPage() {
           <Link href="/simulator" className="border-b-2 border-slate-800 pb-1">Simulator</Link>
           <Link href="#" className="border-b-2 border-transparent hover:border-slate-800 pb-1">Examples</Link>
 
-        </div>
-      </nav>
+
+export default function Home(){
 
       <main className="flex-1 flex flex-col justify-center items-center px-4 py-20 text-center border-b-2 border-slate-800 bg-white/40">
         
@@ -82,17 +82,8 @@ export default function LandingPage() {
           </svg>
         </div>
 
-        <div className="bg-[#fce6b6] p-8 flex flex-col items-center text-center">
-          <h3 className="font-bold uppercase tracking-widest mb-6 border-b-2 border-slate-800 pb-2 w-full">Visual Editor</h3>
-          <svg width="100" height="60" viewBox="0 0 100 60" className="stroke-slate-800 stroke-2">
-            <rect x="10" y="20" width="20" height="15" fill="#8ab4f8" />
-            <rect x="40" y="5" width="20" height="15" fill="#a8d5ba" />
-            <rect x="70" y="20" width="20" height="15" fill="#ffcda2" />
-            <rect x="40" y="40" width="20" height="15" fill="#e2a099" />
-            <line x1="30" y1="27" x2="70" y2="27" />
-            <line x1="50" y1="20" x2="50" y2="40" />
-          </svg>
-        </div>
+
+<SimulationPanel/>
 
       </section>
       <section className="bg-[#f0c2a5] border-b-2 border-slate-800 py-4 text-center">

@@ -68,17 +68,62 @@ margin:0;
 
 .element{
 position:absolute;
-background:#dfe6e9;
-padding:6px 10px;
-border-radius:6px;
+width:80px;
+height:40px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#f1f3f5;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+.element:active {
+  cursor: grabbing;
+}
+
+.port{
+width:14px;
+height:14px;
+background:#333;
+border-radius:50%;
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+z-index:2;
+}
+
+.port.left{
+left:-8px;
+}
+
+.port.right{
+right:-8px;
+}
+
+.port:hover{
+background:#0070f3;
+transform:translateY(-50%) scale(1.2);
+}
+.port:hover::after{
+content:"";
+position:absolute;
+width:30px;
+height:30px;
+border:2px dashed #0070f3;
+border-radius:50%;
+top:-8px;
+left:-8px;
 }
 
 /* simulation */
 
 .simulation{
+align-self: flex-end;
 width:240px;
 background:white;
-border-left:1px solid #ddd;
+border-left:5px solid #000000;
 padding:15px;
 }
 
@@ -97,8 +142,7 @@ margin-top:15px;
 }
 
 .canvas{
-
-flex:1;
+ width: 1000px;
 position:relative;
 background:white;
 
@@ -114,12 +158,14 @@ overflow:hidden;
 
 .element{
 
-position:absolute;
+position: absolute;
 padding:10px 14px;
-background:#dfe6e9;
+background: none;
 border-radius:6px;
 cursor:pointer;
 user-select:none;
+font-size: xx-large;
+
 
 }
 
