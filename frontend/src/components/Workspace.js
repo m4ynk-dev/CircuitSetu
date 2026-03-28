@@ -1,8 +1,4 @@
-"use client";
-import { FaBatteryFull } from "react-icons/fa"
-import { MdLightbulb } from "react-icons/md"
-import { TbCircuitSwitchOpen } from "react-icons/tb";
-import { Cable } from 'lucide-react';
+
 import { useState } from "react";
 
 const icons = {
@@ -49,7 +45,7 @@ export default function Workspace() {
 
         <div
           key={el.id}
-          className="element"
+          className="element" 
           style={{
             left: el.x,
             top: el.y
