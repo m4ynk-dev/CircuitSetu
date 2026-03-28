@@ -1,6 +1,17 @@
 "use client"
+import { FaBatteryFull } from "react-icons/fa"
+import { MdLightbulb } from "react-icons/md"
+import { TbCircuitSwitchOpen } from "react-icons/tb";
+import { Cable } from 'lucide-react';
 
-import { useState } from "react"
+import { useState } from "react";
+
+const iconMap = {
+  battery: <FaBatteryFull />,
+  led: <MdLightbulb />,
+  switch: <TbCircuitSwitchOpen />,
+  wire: <Cable />
+}
 
 export default function CircuitCanvas() {
 
@@ -121,7 +132,7 @@ onClick={()=>startWire(comp.id)}
 onDoubleClick={()=>endWire(comp.id)}
 >
 
-{comp.type}
+{iconMap[comp.type]}
 
 </div>
 

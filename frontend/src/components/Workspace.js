@@ -1,6 +1,17 @@
 "use client";
-
+import { FaBatteryFull } from "react-icons/fa"
+import { MdLightbulb } from "react-icons/md"
+import { TbCircuitSwitchOpen } from "react-icons/tb";
+import { Cable } from 'lucide-react';
 import { useState } from "react";
+
+const icons = {
+Battery: "🔋",
+Resistor: "🟫",
+LED: "💡",
+Switch: "🎚️",
+Wire: "➖"
+}
 
 export default function Workspace() {
 
@@ -44,7 +55,7 @@ export default function Workspace() {
             top: el.y
           }}
         >
-          {el.icon}
+         {icons[el.type]}
         </div>
 
       ))}
