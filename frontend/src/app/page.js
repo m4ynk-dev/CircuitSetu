@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FaGithub, FaBolt } from 'react-icons/fa';
-import Logo from '../components/logo';
+import Logo from '../components/logo'; // Make sure the filename case matches exactly!
 
 export default function LandingPage() {
   return (
@@ -12,9 +12,11 @@ export default function LandingPage() {
         backgroundSize: '24px 24px'
       }}
     >
-      <nav className="w-full px-8 py-6 flex flex-col sm:flex-row justify-between items-center border-b-2 border-slate-800 bg-[#F9F8F4]">
+      {/* 1. Correctly Closed Navbar */}
+      <nav className="w-full px-8 py-6 flex flex-col sm:flex-row justify-between items-center border-b-2 border-slate-800 bg-[#F9F8F4] shadow-[4px_4px_0px_#ccc] fixed top-0 z-50">
         <div className="flex items-center gap-3 mb-4 sm:mb-0">
-          <Logo className="h-10 w-auto drop-shadow-lg" />
+          {/* Removed drop-shadow-lg to keep the retro flat look */}
+          <Logo className="h-10 w-auto" />
           <span className="text-2xl font-bold tracking-tight text-slate-600">
             Circuit<span className="text-[#64a982]">Setu</span>
           </span>
@@ -24,11 +26,12 @@ export default function LandingPage() {
           <Link href="#" className="border-b-2 border-transparent hover:border-slate-800 pb-1">Docs</Link>
           <Link href="/simulator" className="border-b-2 border-slate-800 pb-1">Simulator</Link>
           <Link href="#" className="border-b-2 border-transparent hover:border-slate-800 pb-1">Examples</Link>
+          <a href="https://github.com/r17e8h/CircuitSetu" target="_blank" rel="noreferrer" className="border-b-2 border-transparent hover:border-slate-800 pb-1">Github</a>
+        </div>
+      </nav>
 
-
-export default function Home(){
-
-      <main className="flex-1 flex flex-col justify-center items-center px-4 py-20 text-center border-b-2 border-slate-800 bg-white/40">
+      {/* 2. Added padding-top (pt-32) so the fixed navbar doesn't cover the hero section */}
+      <main className="flex-1 flex flex-col justify-center items-center px-4 pt-32 pb-20 text-center border-b-2 border-slate-800 bg-white/40">
         
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-slate-600 uppercase">
           High-Performance <br/> Circuit Simulation.
@@ -59,6 +62,7 @@ export default function Home(){
           </a>
         </div>
       </main>
+
       <section className="grid grid-cols-1 md:grid-cols-3 border-b-2 border-slate-800">
         
         <div className="bg-[#c8e1e9] border-b-2 md:border-b-0 md:border-r-2 border-slate-800 p-8 flex flex-col items-center text-center">
@@ -82,11 +86,21 @@ export default function Home(){
           </svg>
         </div>
 
-
-<SimulationPanel/>
+        <div className="bg-[#fce6b6] p-8 flex flex-col items-center text-center">
+          <h3 className="font-bold uppercase tracking-widest mb-6 border-b-2 border-slate-800 pb-2 w-full">Visual Editor</h3>
+          <svg width="100" height="60" viewBox="0 0 100 60" className="stroke-slate-800 stroke-2">
+            <rect x="10" y="20" width="20" height="15" fill="#8ab4f8" />
+            <rect x="40" y="5" width="20" height="15" fill="#a8d5ba" />
+            <rect x="70" y="20" width="20" height="15" fill="#ffcda2" />
+            <rect x="40" y="40" width="20" height="15" fill="#e2a099" />
+            <line x1="30" y1="27" x2="70" y2="27" />
+            <line x1="50" y1="20" x2="50" y2="40" />
+          </svg>
+        </div>
 
       </section>
-      <section className="bg-[#f0c2a5] border-b-2 border-slate-800 py-4 text-center">
+
+      <section className="bg-[#f0c2a5] border-b-2 border-slate-800 py-4 text-center flex-1">
          <h2 className="font-bold uppercase tracking-widest text-slate-800">The Math Process</h2>
       </section>
 
